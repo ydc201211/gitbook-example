@@ -1,0 +1,21 @@
+{
+  "name": "java-note",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "gitbook build ./content ./docs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ydc201211/java-note.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ydc201211/java-note/issues"
+  },   
+  "homepage": "https://github.com/ydc201211/java-note#readme"
+}
