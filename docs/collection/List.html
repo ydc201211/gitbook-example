@@ -103,6 +103,20 @@
                 <span>
             
                     
+                    java
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" >
+            
+                <span>
+            
+                    
                     集合
             
                 </span>
@@ -112,7 +126,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.2.1" data-path="List.html">
+        <li class="chapter active" data-level="1.2.1.1" data-path="List.html">
             
                 <a href="List.html">
             
@@ -122,6 +136,11 @@
                 </a>
             
 
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -176,6 +195,132 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="list">List</h1>
+<ul>
+<li>ArrayList&#x662F;&#x57FA;&#x4E8E;&#x6570;&#x7EC4;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x52A8;&#x6001;&#x6570;&#x7EC4;&#xFF0C;&#x5176;&#x5BB9;&#x91CF;&#x80FD;&#x81EA;&#x52A8;&#x589E;&#x957F;</li>
+<li>ArrayList&#x4E0D;&#x662F;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;&#xFF0C;Collections.synchronizedList(List l)&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x5B89;&#x5168;&#x7684;ArrayList&#x7C7B;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;concurrent&#x5E76;&#x53D1;&#x5305;&#x4E0B;&#x7684;CopyOnWriteArrayList&#x7C7B;&#x3002;</li>
+</ul>
+<h3 id="1&#x3001;arraylist&#x6E90;&#x7801;&#x5206;&#x6790;">1&#x3001;ArrayList&#x6E90;&#x7801;&#x5206;&#x6790;</h3>
+<ul>
+<li>1&#x3001;&#x5C5E;&#x6027;
+  ArrayList&#x5B9A;&#x4E49;&#x4E86;&#x4E24;&#x4E2A;&#x79C1;&#x6709;&#x5C5E;&#x6027;&#xFF1A;</li>
+</ul>
+<pre><code>    /**
+    *  Default initial capacity.
+    */
+    private static final int DEFAULT_CAPACITY = 10;
+
+    /**
+    * Shared empty array instance used for empty instances.
+    */
+    private static final Object[] EMPTY_ELEMENTDATA = {};
+
+    /**
+    *  Shared empty array instance used for default sized
+    *  empty instances. We
+    * distinguish this from EMPTY_ELEMENTDATA to know how * * much to inflate when
+    * first element is added.
+    */
+    private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
+    /** 
+    * The array buffer into which the elements  
+    * of the ArrayList are stored. 
+    * The capacity of the ArrayList is the  
+    *  length of this array buffer. 
+    */  
+    private transient Object[] elementData;  
+
+    /** 
+    * The size of the ArrayList (the number of elements it
+    * contains). 
+    * 
+    * @serial 
+    */  
+    private int size;
+</code></pre><ul>
+<li><p>elementData&#x4E3A;&#x5BF9;&#x8C61;&#x6570;&#x7EC4;&#xFF0C;&#x7528;&#x6765;&#x5B58;&#x50A8;ArrayList&#x5185;&#x7684;&#x5143;&#x7D20;&#xFF0C;size&#x8868;&#x793A;&#x5143;&#x7D20;&#x7684;&#x6570;&#x91CF;&#xFF0C;DEFAULT_CAPACITY&#x8868;&#x793A;&#x9ED8;&#x8BA4;&#x6570;&#x7EC4;&#x5927;&#x5C0F;&#x4E3A;10&#xFF0C;&#xFF08;&#x5728;&#x5B9A;&#x4E49;ArrayList&#x4E0D;&#x6307;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x65F6;&#x5019;&#xFF09;&#xFF0C;EMPTY_ELEMENTDATA&#x8868;&#x793A;&#x5143;&#x7D20;&#x5B58;&#x653E;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x9ED8;&#x8BA4;&#x4E3A;&#x7A7A;&#xFF0C;DEFAULTCAPACITY_EMPTY_ELEMENTDATA&#x8868;&#x793A;&#x6269;&#x5BB9;&#x7684;&#x6570;&#x7EC4;&#xFF0C;</p>
+</li>
+<li><p>&#x6709;&#x4E2A;&#x5173;&#x952E;&#x5B57;&#x9700;&#x8981;&#x89E3;&#x91CA;&#xFF1A;transient&#x3002;Java&#x7684;serialization&#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x79CD;&#x6301;&#x4E45;&#x5316;&#x5BF9;&#x8C61;&#x5B9E;&#x4F8B;&#x7684;&#x673A;&#x5236;&#x3002;&#x5F53;&#x6301;&#x4E45;&#x5316;&#x5BF9;&#x8C61;&#x65F6;&#xFF0C;&#x53EF;&#x80FD;&#x6709;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x5BF9;&#x8C61;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF0C;&#x6211;&#x4EEC;&#x4E0D;&#x60F3;&#x7528;serialization&#x673A;&#x5236;&#x6765;&#x4FDD;&#x5B58;&#x5B83;&#x3002;&#x4E3A;&#x4E86;&#x5728;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x5BF9;&#x8C61;&#x7684;&#x4E00;&#x4E2A;&#x57DF;&#x4E0A;&#x5173;&#x95ED;serialization&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x4E2A;&#x57DF;&#x524D;&#x52A0;&#x4E0A;&#x5173;&#x952E;&#x5B57;transient&#x3002;</p>
+</li>
+</ul>
+<pre><code>    //User&#x7C7B;
+    public class User implements Serializable {  
+        private static final long serialVersionUID = 996890129747019948L;  
+        private String name;  
+        private transient String psw;  
+
+        public User(String name, String psw) {  
+            this.name = name;  
+            this.psw = psw;  
+        }  
+
+        public String toString() {  
+            return &quot;name=&quot; + name + &quot;, psw=&quot; + psw;  
+        }  
+    }  
+
+    public class TestTransient {  
+        public static void main(String[] args) {  
+            User user = new User(&quot;&#x5F20;&#x4E09;&quot;,&quot;123456&quot;&#xFF09;;
+            System.out.println(userInfo);  
+     try {  
+         // &#x5E8F;&#x5217;&#x5316;&#xFF0C;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A;transient&#x7684;&#x5C5E;&#x6027;&#x6CA1;&#x6709;&#x88AB;&#x5E8F;&#x5217;&#x5316;  
+         ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(  
+                 &quot;User.out&quot;));  
+         o.writeObject(user);  
+         o.close();  
+     } catch (Exception e) {  
+         // TODO: handle exception  
+         e.printStackTrace();  
+     }
+     try {  
+         // &#x91CD;&#x65B0;&#x8BFB;&#x53D6;&#x5185;&#x5BB9;  
+         ObjectInputStream in = new ObjectInputStream(new FileInputStream(  
+                 &quot;UserInfo.out&quot;));  
+         User readUser = (User) in.readObject();  
+         //&#x8BFB;&#x53D6;&#x540E;psw&#x7684;&#x5185;&#x5BB9;&#x4E3A;null  
+         System.out.println(readUser.toString());  
+     } catch (Exception e) {  
+         // TODO: handle exception  
+         e.printStackTrace();  
+     }  
+    }  
+    }
+</code></pre><ul>
+<li><p>2&#x3001;&#x6784;&#x9020;&#x65B9;&#x6CD5;</p>
+<pre><code>   /**
+  * Constructs an empty list with the specified initial * * capacity.
+  *
+  * @param  initialCapacity  the initial capacity of the list
+  * @throws IllegalArgumentException if the specified *initial capacity is negative
+  */
+  // ArrayList&#x5E26;&#x5BB9;&#x91CF;&#x5927;&#x5C0F;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x3002;
+  public ArrayList(int initialCapacity) {
+      if (initialCapacity &gt; 0) {
+          this.elementData = new Object[initialCapacity];
+      } else if (initialCapacity == 0) {
+          this.elementData = EMPTY_ELEMENTDATA;
+      } else {
+          throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+ initialCapacity);
+      }
+  }
+
+  /**
+  * Constructs an empty list with an initial capacity of * ten.
+  */
+  // ArrayList&#x65E0;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#x3002;&#x9ED8;&#x8BA4;&#x5BB9;&#x91CF;&#x662F;10&#x3002; 
+  public ArrayList() {
+      this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+  }
+
+  // &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x5305;&#x542B;collection&#x7684;ArrayList    
+  public ArrayList(Collection&lt;? extends E&gt; c) {    
+      elementData = c.toArray();    
+      size = elementData.length;    
+      if (elementData.getClass() != Object[].class)    
+          elementData = Arrays.copyOf(elementData, size, Object[].class);    
+  }
+</code></pre></li>
+</ul>
 
                                 
                                 </section>
@@ -211,7 +356,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"\bList","level":"1.2.1","depth":2,"previous":{"title":"集合","level":"1.2","depth":1,"ref":"","articles":[{"title":"\bList","level":"1.2.1","depth":2,"path":"collection/List.md","ref":"collection/List.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/List.md","mtime":"2018-09-12T14:19:49.310Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-12T14:34:12.861Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"\bList","level":"1.2.1.1","depth":3,"previous":{"title":"集合","level":"1.2.1","depth":2,"ref":"","articles":[{"title":"\bList","level":"1.2.1.1","depth":3,"path":"collection/List.md","ref":"collection/List.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/List.md","mtime":"2018-09-13T14:57:46.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-13T15:06:19.828Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
