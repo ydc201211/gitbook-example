@@ -4,4 +4,5 @@
 * java
     * 集合
         * [List](collection/List.md)
+        * [HashMap](collection/HashMap.md)
 

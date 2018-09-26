@@ -349,22 +349,21 @@
 
 - set( int index, E element)
 
-    /**
-    * 替换指定索引的元素
-    *
-    * @param 被替换元素的索引
-    * @param element 即将替换到指定索引的元素
-    * @return 返回被替换的元素
-    * @throws IndexOutOfBoundsException 如果参数指定索引index>=size，抛出一个越界异常
-    */
-    public E set(int index, E element) {
-        //检查索引是否越界。如果参数指定索引index>=size，抛出一个越界异常
-        rangeCheck(index);
+        /**
+        * 替换指定索引的元素
+        * @param 被替换元素的索引
+        * @param element 即将替换到指定索引的元素
+        * @return 返回被替换的元素
+        * @throws IndexOutOfBoundsException 如果参数指定索引index>=size，抛出一个越界异常
+        */
+        public E set(int index, E element) {
+            //检查索引是否越界。如果参数指定索引index>=size，抛出一个越界异常
+            rangeCheck(index);
 
-        //记录被替换的元素
-        E oldValue = elementData(index);
-        //替换元素
-        elementData[index] = element;
-        //返回被替换的元素
-        return oldValue;
-    }
+            //记录被替换的元素
+            E oldValue = elementData(index);
+            //替换元素
+            elementData[index] = element;
+            //返回被替换的元素
+            return oldValue;
+        }

@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="HashMap.html" />
+    
     
 
     </head>
@@ -132,6 +134,19 @@
             
                     
                     List
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="HashMap.html">
+            
+                <a href="HashMap.html">
+            
+                    
+                    HashMap
             
                 </a>
             
@@ -530,28 +545,25 @@
 <p>3.&#x5C06;&#x7D22;&#x5F15;&#x4E3A;size-1&#x5904;&#x7684;&#x5143;&#x7D20;&#x7F6E;&#x4E3A;null&#xFF08;&#x4E3A;&#x4E86;&#x8BA9;GC&#x8D77;&#x4F5C;&#x7528;&#xFF09;&#x3002;</p>
 <ul>
 <li><p>set( int index, E element)</p>
-<p>  /**</p>
-<ul>
-<li>&#x66FF;&#x6362;&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x7684;&#x5143;&#x7D20;
-*</li>
-<li>@param &#x88AB;&#x66FF;&#x6362;&#x5143;&#x7D20;&#x7684;&#x7D22;&#x5F15;</li>
-<li>@param element &#x5373;&#x5C06;&#x66FF;&#x6362;&#x5230;&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x7684;&#x5143;&#x7D20;</li>
-<li>@return &#x8FD4;&#x56DE;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;</li>
-<li><p>@throws IndexOutOfBoundsException &#x5982;&#x679C;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7D22;&#x5F15;index&gt;=size&#xFF0C;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x8D8A;&#x754C;&#x5F02;&#x5E38;
-*/
-public E set(int index, E element) {
-  //&#x68C0;&#x67E5;&#x7D22;&#x5F15;&#x662F;&#x5426;&#x8D8A;&#x754C;&#x3002;&#x5982;&#x679C;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7D22;&#x5F15;index&gt;=size&#xFF0C;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x8D8A;&#x754C;&#x5F02;&#x5E38;
-  rangeCheck(index);</p>
-<p>  //&#x8BB0;&#x5F55;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;
-  E oldValue = elementData(index);
-  //&#x66FF;&#x6362;&#x5143;&#x7D20;
-  elementData[index] = element;
-  //&#x8FD4;&#x56DE;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;
-  return oldValue;
-}</p>
-</li>
-</ul>
-</li>
+<pre><code>  /**
+  * &#x66FF;&#x6362;&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x7684;&#x5143;&#x7D20;
+  * @param &#x88AB;&#x66FF;&#x6362;&#x5143;&#x7D20;&#x7684;&#x7D22;&#x5F15;
+  * @param element &#x5373;&#x5C06;&#x66FF;&#x6362;&#x5230;&#x6307;&#x5B9A;&#x7D22;&#x5F15;&#x7684;&#x5143;&#x7D20;
+  * @return &#x8FD4;&#x56DE;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;
+  * @throws IndexOutOfBoundsException &#x5982;&#x679C;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7D22;&#x5F15;index&gt;=size&#xFF0C;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x8D8A;&#x754C;&#x5F02;&#x5E38;
+  */
+  public E set(int index, E element) {
+      //&#x68C0;&#x67E5;&#x7D22;&#x5F15;&#x662F;&#x5426;&#x8D8A;&#x754C;&#x3002;&#x5982;&#x679C;&#x53C2;&#x6570;&#x6307;&#x5B9A;&#x7D22;&#x5F15;index&gt;=size&#xFF0C;&#x629B;&#x51FA;&#x4E00;&#x4E2A;&#x8D8A;&#x754C;&#x5F02;&#x5E38;
+      rangeCheck(index);
+
+      //&#x8BB0;&#x5F55;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;
+      E oldValue = elementData(index);
+      //&#x66FF;&#x6362;&#x5143;&#x7D20;
+      elementData[index] = element;
+      //&#x8FD4;&#x56DE;&#x88AB;&#x66FF;&#x6362;&#x7684;&#x5143;&#x7D20;
+      return oldValue;
+  }
+</code></pre></li>
 </ul>
 
                                 
@@ -581,6 +593,10 @@ public E set(int index, E element) {
             
                 
                 
+                <a href="HashMap.html" class="navigation navigation-next navigation-unique" aria-label="Next page: HashMap">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
             
         
     </div>
@@ -588,7 +604,7 @@ public E set(int index, E element) {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"\bList","level":"1.2.1.1","depth":3,"previous":{"title":"集合","level":"1.2.1","depth":2,"ref":"","articles":[{"title":"\bList","level":"1.2.1.1","depth":3,"path":"collection/List.md","ref":"collection/List.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/List.md","mtime":"2018-09-17T15:12:36.016Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T15:13:26.160Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"\bList","level":"1.2.1.1","depth":3,"next":{"title":"\bHashMap","level":"1.2.1.2","depth":3,"path":"collection/HashMap.md","ref":"collection/HashMap.md","articles":[]},"previous":{"title":"集合","level":"1.2.1","depth":2,"ref":"","articles":[{"title":"\bList","level":"1.2.1.1","depth":3,"path":"collection/List.md","ref":"collection/List.md","articles":[]},{"title":"\bHashMap","level":"1.2.1.2","depth":3,"path":"collection/HashMap.md","ref":"collection/HashMap.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/List.md","mtime":"2018-09-25T13:06:35.815Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-26T15:10:58.812Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
