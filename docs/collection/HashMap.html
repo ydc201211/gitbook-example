@@ -219,6 +219,330 @@
 </li>
 <li>&#x901A;&#x5E38;&#xFF0C;&#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#x662F; 0.75, &#x8FD9;&#x662F;&#x5728;&#x65F6;&#x95F4;&#x548C;&#x7A7A;&#x95F4;&#x6210;&#x672C;&#x4E0A;&#x5BFB;&#x6C42;&#x4E00;&#x79CD;&#x6298;&#x8877;&#x3002;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#x8FC7;&#x9AD8;&#x867D;&#x7136;&#x51CF;&#x5C11;&#x4E86;&#x7A7A;&#x95F4;&#x5F00;&#x9500;&#xFF0C;&#x4F46;&#x540C;&#x65F6;&#x4E5F;&#x589E;&#x52A0;&#x4E86;&#x67E5;&#x8BE2;&#x6210;&#x672C;&#xFF08;&#x5728;&#x5927;&#x591A;&#x6570; HashMap &#x7C7B;&#x7684;&#x64CD;&#x4F5C;&#x4E2D;&#xFF0C;&#x5305;&#x62EC; get &#x548C; put &#x64CD;&#x4F5C;&#xFF0C;&#x90FD;&#x53CD;&#x6620;&#x4E86;&#x8FD9;&#x4E00;&#x70B9;&#xFF09;&#x3002;&#x5728;&#x8BBE;&#x7F6E;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x65F6;&#x5E94;&#x8BE5;&#x8003;&#x8651;&#x5230;&#x6620;&#x5C04;&#x4E2D;&#x6240;&#x9700;&#x7684;&#x6761;&#x76EE;&#x6570;&#x53CA;&#x5176;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#xFF0C;&#x4EE5;&#x4FBF;&#x6700;&#x5927;&#x9650;&#x5EA6;&#x5730;&#x51CF;&#x5C11; rehash &#x64CD;&#x4F5C;&#x6B21;&#x6570;&#x3002;&#x5982;&#x679C;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x5927;&#x4E8E;&#x6700;&#x5927;&#x6761;&#x76EE;&#x6570;&#x9664;&#x4EE5;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#xFF0C;&#x5219;&#x4E0D;&#x4F1A;&#x53D1;&#x751F; rehash &#x64CD;&#x4F5C;&#x3002;</li>
 </ul>
+<h2 id="1&#x3001;&#x9759;&#x6001;&#x5E38;&#x91CF;">1&#x3001;&#x9759;&#x6001;&#x5E38;&#x91CF;</h2>
+<pre><code>    /**
+    * &#x9ED8;&#x8BA4;&#x521D;&#x59CB;&#x5927;&#x5C0F;&#xFF0C;&#x503C;&#x4E3A;16&#xFF0C;&#x8981;&#x6C42;&#x5FC5;&#x987B;&#x4E3A;2&#x7684;&#x5E42;
+    */
+    static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; 
+
+    /**
+     * &#x6700;&#x5927;&#x5BB9;&#x91CF;&#xFF0C;&#x5FC5;&#x987B;&#x4E0D;&#x5927;&#x4E8E;2^30
+     */
+    static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;
+
+    /**
+     * &#x9ED8;&#x8BA4;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#xFF0C;&#x503C;&#x4E3A;0.75
+     */
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
+    /**
+     * hash&#x51B2;&#x7A81;&#x9ED8;&#x8BA4;&#x91C7;&#x7528;&#x5355;&#x94FE;&#x8868;&#x5B58;&#x50A8;&#xFF0C;&#x5F53;&#x5355;&#x94FE;&#x8868;&#x8282;&#x70B9;&#x4E2A;&#x6570;&#x5927;&#x4E8E;8&#x65F6;&#xFF0C;&#x4F1A;&#x8F6C;&#x5316;&#x4E3A;&#x7EA2;&#x9ED1;&#x6811;&#x5B58;&#x50A8;
+     */
+    static final int TREEIFY_THRESHOLD = 8;
+
+    /**
+     * hash&#x51B2;&#x7A81;&#x9ED8;&#x8BA4;&#x91C7;&#x7528;&#x5355;&#x94FE;&#x8868;&#x5B58;&#x50A8;&#xFF0C;&#x5F53;&#x5355;&#x94FE;&#x8868;&#x8282;&#x70B9;&#x4E2A;&#x6570;&#x5927;&#x4E8E;8&#x65F6;&#xFF0C;&#x4F1A;&#x8F6C;&#x5316;* &#x4E3A;&#x7EA2;&#x9ED1;&#x6811;&#x5B58;&#x50A8;&#x3002;&#x5F53;&#x7EA2;&#x9ED1;&#x6811;&#x4E2D;&#x8282;&#x70B9;&#x5C11;&#x4E8E;6&#x65F6;&#xFF0C;&#x5219;&#x8F6C;&#x5316;&#x4E3A;&#x5355;&#x94FE;&#x8868;&#x5B58;&#x50A8;
+     */
+    static final int UNTREEIFY_THRESHOLD = 6;
+
+    /**
+     * hash&#x51B2;&#x7A81;&#x9ED8;&#x8BA4;&#x91C7;&#x7528;&#x5355;&#x94FE;&#x8868;&#x5B58;&#x50A8;&#xFF0C;&#x5F53;&#x5355;&#x94FE;&#x8868;&#x8282;&#x70B9;&#x4E2A;&#x6570;&#x5927;&#x4E8E;8&#x65F6;&#xFF0C;&#x4F1A;&#x8F6C;&#x5316;*&#x4E3A;&#x7EA2;&#x9ED1;&#x6811;&#x5B58;&#x50A8;&#x3002;&#x4F46;&#x662F;&#x6709;&#x4E00;&#x4E2A;&#x524D;&#x63D0;&#xFF1A;&#x8981;&#x6C42;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x5927;&#x4E8E;64&#xFF0C;&#x5426;&#x5219;&#x4E0D;&#x4F1A;&#x8FDB;*&#x884C;&#x8F6C;&#x5316;
+     */
+    static final int MIN_TREEIFY_CAPACITY = 64;
+</code></pre><ul>
+<li>HashMap&#x9ED8;&#x8BA4;&#x91C7;&#x7528;&#x6570;&#x7EC4;+&#x5355;&#x94FE;&#x8868;&#x65B9;&#x5F0F;&#x5B58;&#x50A8;&#x5143;&#x7D20;&#xFF0C;&#x5F53;&#x5143;&#x7D20;&#x51FA;&#x73B0;&#x54C8;&#x5E0C;&#x51B2;&#x7A81;&#x65F6;&#xFF0C;&#x4F1A;&#x5B58;&#x50A8;&#x5230;&#x8BE5;&#x4F4D;&#x7F6E;&#x7684;&#x5355;&#x94FE;&#x8868;&#x4E2D;&#x3002;&#x4F46;&#x662F;&#x5355;&#x94FE;&#x8868;&#x4E0D;&#x4F1A;&#x4E00;&#x76F4;&#x589E;&#x52A0;&#x5143;&#x7D20;&#xFF0C;&#x5F53;&#x5143;&#x7D20;&#x4E2A;&#x6570;&#x8D85;&#x8FC7;8&#x4E2A;&#x65F6;&#xFF0C;&#x4F1A;&#x5C1D;&#x8BD5;&#x5C06;&#x5355;&#x94FE;&#x8868;&#x8F6C;&#x5316;&#x4E3A;&#x7EA2;&#x9ED1;&#x6811;&#x5B58;&#x50A8;&#x3002;&#x4F46;&#x662F;&#x5728;&#x8F6C;&#x5316;&#x524D;&#xFF0C;&#x4F1A;&#x518D;&#x5224;&#x65AD;&#x4E00;&#x6B21;&#x5F53;&#x524D;&#x6570;&#x7EC4;&#x7684;&#x957F;&#x5EA6;&#xFF0C;&#x53EA;&#x6709;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x5927;&#x4E8E;64&#x624D;&#x5904;&#x7406;&#x3002;&#x5426;&#x5219;&#xFF0C;&#x8FDB;&#x884C;&#x6269;&#x5BB9;&#x64CD;&#x4F5C;&#x3002;</li>
+</ul>
+<h2 id="2&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;">2&#x3001;&#x6784;&#x9020;&#x51FD;&#x6570;</h2>
+<p>1&#x3001;&#x65E0;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code>public HashMap() {
+    this.loadFactor = DEFAULT_LOAD_FACTOR;
+}
+</code></pre><p>2&#x3001;&#x5E26;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x6307;&#x5B9A;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#xFF1A;</p>
+<pre><code>public HashMap(int initialCapacity) {
+    this(initialCapacity, DEFAULT_LOAD_FACTOR);
+}
+</code></pre><p>3&#x3001;&#x5E26;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x6307;&#x5B9A;&#x521D;&#x59CB;&#x5BB9;&#x91CF;&#x548C;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#xFF1A;</p>
+<pre><code>    public HashMap(int initialCapacity, float loadFactor) {
+        if (initialCapacity &lt; 0)
+            throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; + initialCapacity);
+        if (initialCapacity &gt; MAXIMUM_CAPACITY)
+           initialCapacity = MAXIMUM_CAPACITY;
+        if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+            throw new IllegalArgumentException(&quot;Illegal load factor: &quot; + loadFactor);
+        this.loadFactor = loadFactor;
+        this.threshold = tableSizeFor(initialCapacity)//&#x901A;&#x8FC7;&#x540E;&#x9762;&#x6269;&#x5BB9;&#x7684;&#x65B9;&#x6CD5;&#x77E5;&#x9053;&#xFF0C;&#x8BE5;&#x503C;&#x5C31;&#x662F;&#x521D;&#x59CB;&#x521B;&#x5EFA;&#x6570;&#x7EC4;&#x65F6;&#x7684;&#x957F;&#x5EA6;
+    }
+
+    //&#x8FD4;&#x56DE;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;cap&#x6700;&#x5C0F;&#x7684;2&#x7684;&#x5E42;&#xFF0C;&#x5982;cap&#x4E3A;12&#xFF0C;&#x7ED3;&#x679C;&#x5C31;&#x662F;16
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;//&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x5F53;cap&#x672C;&#x8EAB;&#x662F;2&#x7684;&#x5E42;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x80FD;&#x591F;&#x8FD4;&#x56DE;&#x539F;&#x672C;&#x7684;&#x6570;&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE;&#x7684;&#x662F;cap&#x7684;2&#x500D;
+        n |= n &gt;&gt;&gt; 1;
+        n |= n &gt;&gt;&gt; 2;
+        n |= n &gt;&gt;&gt; 4;
+        n |= n &gt;&gt;&gt; 8;
+        n |= n &gt;&gt;&gt; 16;
+        return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
+</code></pre><ul>
+<li><p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x4EE5;cap&#x7B49;&#x4E8E;8&#x4E3A;&#x4F8B;&#xFF1A;</p>
+<p>  1&#x3001;&#x4E0D;&#x51CF;&#x4E00;&#x7684;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>  <img src="https://github.com/ydc201211/java-note/tree/master/docs/img/1.jpg"></p>
+<p>  &#x6700;&#x540E;&#x6267;&#x884C;&#x52A0;1&#x64CD;&#x4F5C;&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x7684;&#x662F;2^4=16&#xFF0C;&#x662F;cap&#x7684;2&#x500D;&#x3002;</p>
+<p>  2&#x3001;&#x51CF;&#x4E00;&#x7684;&#x8FC7;&#x7A0B;&#x5982;&#x4E0B;&#xFF1A;
+  <img src="https://github.com/ydc201211/java-note/tree/master/docs/img/2.jpg"></p>
+<p>  &#x6700;&#x540E;&#x6267;&#x884C;&#x52A0;1&#x64CD;&#x4F5C;&#xFF0C;&#x90A3;&#x4E48;&#x8FD4;&#x56DE;&#x7684;&#x662F;2^3=8&#xFF0C;&#x4E5F;&#x5C31;&#x662F;cap&#x672C;&#x8EAB;&#x3002;</p>
+<p>  &#x4E3A;&#x4F55;&#x6570;&#x7EC4;&#x5BB9;&#x91CF;&#x5FC5;&#x987B;&#x662F;2&#x6B21;&#x5E42;&#xFF1F;
+   &#x7B54;&#xFF1A;&#x7D22;&#x5F15;&#x8BA1;&#x7B97;&#x516C;&#x5F0F;&#x4E3A;i = (n - 1) &amp; hash&#xFF0C;&#x5982;&#x679C;n&#x4E3A;2&#x6B21;&#x5E42;&#xFF0C;&#x90A3;&#x4E48;n-1&#x7684;&#x4F4E;&#x4F4D;&#x5C31;&#x5168;&#x662F;1&#xFF0C;&#x54C8;&#x5E0C;&#x503C;&#x8FDB;&#x884C;&#x4E0E;&#x64CD;&#x4F5C;&#x65F6;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x4F4E;&#x4F4D;&#x7684;&#x503C;&#x4E0D;&#x53D8;&#xFF0C;&#x4ECE;&#x800C;&#x4FDD;&#x8BC1;&#x5206;&#x5E03;&#x5747;&#x5300;&#xFF0C;&#x6548;&#x679C;&#x7B49;&#x540C;&#x4E8E;hash%n&#xFF0C;&#x4F46;&#x662F;&#x4F4D;&#x8FD0;&#x7B97;&#x6BD4;&#x53D6;&#x4F59;&#x8FD0;&#x7B97;&#x8981;&#x9AD8;&#x6548;&#x7684;&#x591A;&#x3002;</p>
+</li>
+</ul>
+<p>4&#x3001;&#x5E26;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x6307;&#x5B9A;Map&#x96C6;&#x5408;&#xFF1A;</p>
+<pre><code>public HashMap(Map&lt;? extends K, ? extends V&gt; m) {
+    this.loadFactor = DEFAULT_LOAD_FACTOR;
+    putMapEntries(m, false);
+}
+
+final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) {
+    int s = m.size();
+    if (s &gt; 0) {
+        if (table == null) { // pre-size
+            float ft = ((float)s / loadFactor) + 1.0F;
+            int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?
+                (int)ft : MAXIMUM_CAPACITY);
+            if (t &gt; threshold)
+                threshold = tableSizeFor(t);
+        }else if (s &gt; threshold)
+            resize();
+        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) {
+            K key = e.getKey();
+            V value = e.getValue();
+            putVal(hash(key), key, value, false, evict);
+        }
+    }
+}
+</code></pre><h3 id="&#x6DFB;&#x52A0;&#x5143;&#x7D20;">&#x6DFB;&#x52A0;&#x5143;&#x7D20;</h3>
+<pre><code>public V put(K key, V value) {
+    return putVal(hash(key), key, value, false, true);
+}
+
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    if ((p = tab[i = (n - 1) &amp; hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        Node&lt;K,V&gt; e; K k;
+        if (p.hash == hash &amp;&amp;
+            ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+            e = p;
+        else if (p instanceof TreeNode)
+            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;&amp;
+                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &gt; threshold)
+        resize();
+    afterNodeInsertion(evict);
+    return null;
+}
+</code></pre><h4 id="&#x6D41;&#x7A0B;&#x56FE;">&#x6D41;&#x7A0B;&#x56FE;</h4>
+<p><img src="https://github.com/ydc201211/java-note/tree/master/docs/img/3.jpg"></p>
+<h4 id="hash&#x8BA1;&#x7B97;">hash&#x8BA1;&#x7B97;</h4>
+<ul>
+<li>&#x6B64;&#x65B9;&#x5F0F;&#x662F;&#x91C7;&#x7528;&quot;&#x6270;&#x4E71;&#x51FD;&#x6570;&quot;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#xFF0C;&#x5C06;key&#x7684;&#x54C8;&#x5E0C;&#x503C;&#xFF0C;&#x8FDB;&#x884C;&#x9AD8;16&#x4F4D;&#x548C;&#x4F4E;16&#x4F4D;&#x5F02;&#x6216;&#x64CD;&#x4F5C;&#xFF0C;&#x589E;&#x52A0;&#x4F4E;16&#x4F4D;&#x7684;&#x968F;&#x673A;&#x6027;&#xFF0C;&#x964D;&#x4F4E;&#x54C8;&#x5E0C;&#x51B2;&#x7A81;&#x7684;&#x53EF;&#x80FD;&#x6027;&#x3002;</li>
+</ul>
+<p><img src="https://github.com/ydc201211/java-note/tree/master/docs/img/4.jpg"></p>
+<h3 id="&#x6269;&#x5BB9;">&#x6269;&#x5BB9;</h3>
+<pre><code>final Node&lt;K,V&gt;[] resize() {
+    Node&lt;K,V&gt;[] oldTab = table;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length;
+    int oldThr = threshold;
+    int newCap, newThr = 0;
+    if (oldCap &gt; 0) {
+        if (oldCap &gt;= MAXIMUM_CAPACITY) {
+            threshold = Integer.MAX_VALUE;
+            return oldTab;
+        }
+        else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+                 oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+            newThr = oldThr &lt;&lt; 1; // double threshold
+    }
+    else if (oldThr &gt; 0) // initial capacity was placed in threshold
+        newCap = oldThr;
+    else {               // zero initial threshold signifies using defaults
+        newCap = DEFAULT_INITIAL_CAPACITY;
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+    }
+    if (newThr == 0) {
+        float ft = (float)newCap * loadFactor;
+        newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+                  (int)ft : Integer.MAX_VALUE);
+    }
+    threshold = newThr;
+    @SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+        Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+    table = newTab;
+    if (oldTab != null) {
+        for (int j = 0; j &lt; oldCap; ++j) {
+            Node&lt;K,V&gt; e;
+            if ((e = oldTab[j]) != null) {
+                oldTab[j] = null;
+                if (e.next == null)
+                    newTab[e.hash &amp; (newCap - 1)] = e;
+                else if (e instanceof TreeNode)
+                    ((TreeNode&lt;K,V&gt;)e).split(this, newTab, j, oldCap);
+                else { // preserve order
+                    Node&lt;K,V&gt; loHead = null, loTail = null;
+                    Node&lt;K,V&gt; hiHead = null, hiTail = null;
+                    Node&lt;K,V&gt; next;
+                    do {
+                        next = e.next;
+                        if ((e.hash &amp; oldCap) == 0) {
+                            if (loTail == null)
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
+                        }
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
+                        }
+                    } while ((e = next) != null);
+                    if (loTail != null) {
+                        loTail.next = null;
+                        newTab[j] = loHead;
+                    }
+                    if (hiTail != null) {
+                        hiTail.next = null;
+                        newTab[j + oldCap] = hiHead;
+                    }
+                }
+            }
+        }
+    }
+    return newTab;
+}
+</code></pre><h4 id="&#x6D41;&#x7A0B;&#x56FE;">&#x6D41;&#x7A0B;&#x56FE;</h4>
+<h5 id="&#x9996;&#x6B21;&#x8C03;&#x7528;&#x6269;&#x5BB9;&#x65B9;&#x6CD5;">&#x9996;&#x6B21;&#x8C03;&#x7528;&#x6269;&#x5BB9;&#x65B9;&#x6CD5;</h5>
+<p><img src="https://github.com/ydc201211/java-note/tree/master/docs/img/5.jpg"></p>
+<p>&#x60C5;&#x51B5;&#x4E00;&#xFF1A;</p>
+<p>1&#x3001;&#x4F7F;&#x7528;&#x65E0;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code>HashMap&lt;String, Integer&gt; hashMap = new HashMap&lt;&gt;();
+</code></pre><p>2&#x3001;put&#x5143;&#x7D20;&#xFF0C;&#x53D1;&#x73B0;table&#x4E3A;null&#xFF0C;&#x8C03;&#x7528;resize&#x6269;&#x5BB9;&#x65B9;&#x6CD5;&#xFF1A;</p>
+<pre><code>int oldCap = (oldTab == null) ? 0 : oldTab.length;
+int oldThr = threshold;
+</code></pre><p>3&#x3001;oldCap&#x4E3A;0&#xFF0C;oldThr&#x4E3A;0&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>newCap = DEFAULT_INITIAL_CAPACITY;
+newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+threshold = newThr;
+@SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+table = newTab;
+</code></pre><p>4&#x3001;newCap&#x4E3A;16&#xFF0C;newThr&#x4E3A;12&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;HashMap&#x9ED8;&#x8BA4;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x4E3A;16&#xFF0C;&#x5143;&#x7D20;&#x6DFB;&#x52A0;&#x9608;&#x503C;&#x4E3A;12&#x3002;</p>
+<p>5&#x3001;threshold&#x4E3A;12&#x3002;&#x521B;&#x5EFA;&#x5927;&#x5C0F;&#x4E3A;16&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8D4B;&#x503C;&#x7ED9;table&#x3002;</p>
+<p>&#x60C5;&#x51B5;&#x4E8C;&#xFF1A;</p>
+<p>1&#x3001;&#x4F7F;&#x7528;&#x6709;&#x53C2;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF1A;</p>
+<pre><code>HashMap&lt;String, Integer&gt; hashMap = new HashMap&lt;&gt;(7);
+</code></pre><p>2&#x3001;oldCap&#x4E3A;0&#xFF0C;oldThr&#x4E3A;8&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>else if (oldThr &gt; 0) // initial capacity was placed in threshold
+    newCap = oldThr;
+</code></pre><p>3&#x3001;newCap&#x4E3A;8&#xFF0C;newThr&#x4E3A;0&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>if (newThr == 0) {
+    float ft = (float)newCap * loadFactor;
+    newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+            (int)ft : Integer.MAX_VALUE);
+}
+threshold = newThr;
+@SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+9table = newTab;
+</code></pre><p>4&#x3001;threshold&#x4E3A;6&#x3002;&#x521B;&#x5EFA;&#x5927;&#x5C0F;&#x4E3A;8&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8D4B;&#x503C;&#x7ED9;table&#x3002;</p>
+<h5 id="&#x975E;&#x9996;&#x6B21;&#x8C03;&#x7528;&#x6269;&#x5BB9;&#x65B9;&#x6CD5;&#xFF1A;">&#x975E;&#x9996;&#x6B21;&#x8C03;&#x7528;&#x6269;&#x5BB9;&#x65B9;&#x6CD5;&#xFF1A;</h5>
+<p><img src="https://github.com/ydc201211/java-note/tree/master/docs/img/6.jpg"></p>
+<ul>
+<li>&#x63A5;&#x7740;2.2&#x91CC;&#x7684;&#x60C5;&#x51B5;&#x4E8C;&#xFF0C;&#x7EE7;&#x7EED;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#xFF0C;&#x76F4;&#x5230;&#x6269;&#x5BB9;&#xFF1A;</li>
+</ul>
+<p>1&#x3001;oldCap&#x4E3A;8&#xFF0C;oldThr&#x4E3A;6&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>if (oldCap &gt; 0) {
+    if (oldCap &gt;= MAXIMUM_CAPACITY) {
+        threshold = Integer.MAX_VALUE;
+        return oldTab;
+    }
+    else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+            oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+        newThr = oldThr &lt;&lt; 1; // double threshold
+}
+</code></pre><p>2&#x3001;oldCap&#x5C0F;&#x4E8E;MAXIMUM_CAPACITY&#xFF0C;&#x8FDB;&#x884C;2&#x500D;&#x6269;&#x5BB9;&#xFF0C;newCap&#x4E3A;16&#x3002;oldCap&#x5C0F;&#x4E8E;DEFAULT_INITIAL_CAPACITY&#xFF0C;&#x4E0D;&#x505A;newThr&#x7684;&#x6269;&#x5BB9;&#xFF0C;&#x4E3A;0&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>if (newThr == 0) {
+    float ft = (float)newCap * loadFactor;
+    newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (float)MAXIMUM_CAPACITY ?
+              (int)ft : Integer.MAX_VALUE);
+}
+threshold = newThr;
+@SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+table = newTab;
+..........&#x7701;&#x7565;.......//&#x5C06;&#x539F;&#x6570;&#x7EC4;&#x5143;&#x7D20;&#x5B58;&#x5165;&#x65B0;&#x6570;&#x7EC4;&#x4E2D;
+</code></pre><p>3&#x3001;&#x56E0;&#x4E3A;newCap&#x5C0F;&#x4E8E;MAXIMUM_CAPACITY &#xFF0C;ft&#x4E3A;newCap*&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#x4E3A;12&#xFF0C;threshold&#x4E3A;12&#x3002;&#x521B;&#x5EFA;&#x5927;&#x5C0F;&#x4E3A;16&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8D4B;&#x503C;&#x7ED9;table&#xFF0C;&#x5E76;&#x5C06;&#x539F;&#x6570;&#x7EC4;&#x5143;&#x7D20;&#x653E;&#x5165;&#x65B0;&#x6570;&#x7EC4;&#x4E2D;&#x3002;</p>
+<ul>
+<li>&#x7EE7;&#x7EED;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#xFF0C;&#x76F4;&#x5230;&#x6269;&#x5BB9;&#xFF1A;</li>
+</ul>
+<p>1&#x3001;oldCap&#x4E3A;16&#xFF0C;oldThr&#x4E3A;12&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>if (oldCap &gt; 0) {
+    if (oldCap &gt;= MAXIMUM_CAPACITY) {
+        threshold = Integer.MAX_VALUE;
+        return oldTab;
+    }
+    else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+            oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+        newThr = oldThr &lt;&lt; 1; // double threshold
+}
+</code></pre><p>2&#x3001;oldCap&#x5C0F;&#x4E8E;MAXIMUM_CAPACITY&#xFF0C;&#x5C06;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x8FDB;&#x884C;2&#x500D;&#x6269;&#x5BB9;&#xFF0C;newCap&#x4E3A;32&#x3002;oldCap&gt;=DEFAULT_INITIAL_CAPACITY&#xFF0C;&#x5C06;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#x7684;&#x9608;&#x503C;&#x4E5F;&#x8FDB;&#x884C;2&#x500D;&#x6269;&#x5BB9;&#xFF0C;&#x6CE8;&#x610F;&#x6B64;&#x65F6;&#x4E0D;&#x518D;&#x7528;&#x52A0;&#x8F7D;&#x56E0;&#x5B50;&#x53BB;&#x8BA1;&#x7B97;&#x9608;&#x503C;&#xFF0C;&#x800C;&#x662F;&#x968F;&#x7740;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;2&#x500D;&#x6269;&#x5BB9;&#xFF0C;threshold&#x4E3A;24&#x3002;</p>
+<p>3&#x3001;&#x521B;&#x5EFA;&#x5927;&#x5C0F;&#x4E3A;32&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x8D4B;&#x503C;&#x7ED9;table&#xFF0C;&#x5E76;&#x5C06;&#x539F;&#x6570;&#x7EC4;&#x5143;&#x7D20;&#x653E;&#x5165;&#x65B0;&#x6570;&#x7EC4;&#x4E2D;&#x3002;</p>
+<pre><code>threshold = newThr;
+@SuppressWarnings({&quot;rawtypes&quot;,&quot;unchecked&quot;})
+    Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])new Node[newCap];
+table = newTab;
+..........&#x7701;&#x7565;.......//&#x5C06;&#x539F;&#x6570;&#x7EC4;&#x5143;&#x7D20;&#x5B58;&#x5165;&#x65B0;&#x6570;&#x7EC4;&#x4E2D;
+</code></pre><ul>
+<li>&#x7EE7;&#x7EED;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#xFF0C;&#x6269;&#x5BB9;&#x5230;&#x6570;&#x7EC4;&#x957F;&#x5EA6;&#x7B49;&#x4E8E;MAXIMUM_CAPACITY&#xFF1A;</li>
+</ul>
+<p>1&#x3001;oldCap&#x4E3A;MAXIMUM_CAPACITY&#xFF0C;&#x6267;&#x884C;resize()&#x91CC;&#x7684;&#x8BE5;&#x5206;&#x652F;&#xFF1A;</p>
+<pre><code>if (oldCap &gt; 0) {
+    if (oldCap &gt;= MAXIMUM_CAPACITY) {
+        threshold = Integer.MAX_VALUE;
+        return oldTab;
+    }
+    else if ((newCap = oldCap &lt;&lt; 1) &lt; MAXIMUM_CAPACITY &amp;&amp;
+            oldCap &gt;= DEFAULT_INITIAL_CAPACITY)
+        newThr = oldThr &lt;&lt; 1; // double threshold
+}
+</code></pre><p>2&#x3001;&#x56E0;&#x4E3A;oldCap&#x7B49;&#x4E8E;MAXIMUM_CAPACITY&#xFF0C;threshold&#x8BBE;&#x7F6E;&#x4E3A; Integer.MAX_VALUE&#xFF0C;&#x4E0D;&#x518D;&#x6269;&#x5BB9;&#xFF0C;&#x76F4;&#x63A5;&#x8FD4;&#x56DE;&#x539F;&#x6570;&#x7EC4;&#x3002;&#x6B64;&#x65F6;&#x7EE7;&#x7EED;&#x6DFB;&#x52A0;&#x5143;&#x7D20;&#xFF0C;Integer.MAX_VALUE+1=Integer.MIN_VALUE&#xFF0C;&#x4E0D;&#x518D;&#x5927;&#x4E8E;threshold&#xFF0C;&#x5219;&#x4E0D;&#x518D;&#x8FDB;&#x884C;&#x6269;&#x5BB9;&#x64CD;&#x4F5C;&#x4E86;&#x3002;</p>
 
                                 
                                 </section>
@@ -258,7 +582,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"\bHashMap","level":"1.2.1.2","depth":3,"previous":{"title":"\bList","level":"1.2.1.1","depth":3,"path":"collection/List.md","ref":"collection/List.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/HashMap.md","mtime":"2018-09-26T15:08:00.424Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-26T15:10:58.812Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"\bHashMap","level":"1.2.1.2","depth":3,"previous":{"title":"\bList","level":"1.2.1.1","depth":3,"path":"collection/List.md","ref":"collection/List.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"collection/HashMap.md","mtime":"2018-09-28T15:02:48.696Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-28T15:07:57.260Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
