@@ -81,14 +81,12 @@
 - 下面我们以cap等于8为例：
 
     1、不减一的过程如下：
-
-    <img src="https://github.com/ydc201211/java-note/tree/master/docs/img/1.jpg">
+        ![p1](../img/1.jpg)
 
     最后执行加1操作，那么返回的是2^4=16，是cap的2倍。
 
     2、减一的过程如下：
-    <img src="https://github.com/ydc201211/java-note/tree/master/docs/img/2.jpg">
-
+        ![p2](../img/2.jpg)
     最后执行加1操作，那么返回的是2^3=8，也就是cap本身。
 
     为何数组容量必须是2次幂？
@@ -169,14 +167,10 @@
     }
 
 #### 流程图
-
-<img src="https://github.com/ydc201211/java-note/tree/master/docs/img/3.jpg">
-
+![p3](../img/3.jpg)
 #### hash计算
 - 此方式是采用"扰乱函数"的解决方案，将key的哈希值，进行高16位和低16位异或操作，增加低16位的随机性，降低哈希冲突的可能性。
-
-<img src="https://github.com/ydc201211/java-note/tree/master/docs/img/4.jpg">
-
+![p4](../img/4.jpg)
 
 ### 扩容
 
@@ -256,9 +250,8 @@
 
 #### 流程图
 
-##### 首次调用扩容方法
-<img src="https://github.com/ydc201211/java-note/tree/master/docs/img/5.jpg">
-
+##### 首次调用扩容方法
+![p5](../img/5.jpg)
 情况一：
 
 1、使用无参构造函数：
@@ -309,8 +302,7 @@
 4、threshold为6。创建大小为8的数组，赋值给table。
 
 ##### 非首次调用扩容方法：
-<img src="https://github.com/ydc201211/java-note/tree/master/docs/img/6.jpg">
-
+![p6](../img/6.jpg)
 - 接着2.2里的情况二，继续添加元素，直到扩容：
 
 1、oldCap为8，oldThr为6，执行resize()里的该分支：
