@@ -2,8 +2,8 @@
 - ArrayList是基于数组实现的，是一个动态数组，其容量能自动增长
 - ArrayList不是线程安全的，Collections.synchronizedList(List l)函数返回一个线程安全的ArrayList类，也可以使用concurrent并发包下的CopyOnWriteArrayList类。
 
-### 1、ArrayList源码分析
-- 1、属性
+### 1、ArrayList源码分析
+- 1、属性
     ArrayList定义了两个私有属性：
 
 
@@ -40,12 +40,12 @@
         */  
         private int size;
 
-- elementData为对象数组，用来存储ArrayList内的元素，size表示元素的数量，DEFAULT_CAPACITY表示默认数组大小为10，（在定义ArrayList不指定大小的时候），EMPTY_ELEMENTDATA表示元素存放的数组，默认为空，DEFAULTCAPACITY_EMPTY_ELEMENTDATA表示扩容的数组，
+- elementData为对象数组，用来存储ArrayList内的元素，size表示元素的数量，DEFAULT_CAPACITY表示默认数组大小为10，（在定义ArrayList不指定大小的时候），EMPTY_ELEMENTDATA表示元素存放的数组，默认为空，DEFAULTCAPACITY_EMPTY_ELEMENTDATA表示扩容的数组，
 
 - 有个关键字需要解释：transient。Java的serialization提供了一种持久化对象实例的机制。当持久化对象时，可能有一个特殊的对象数据成员，我们不想用serialization机制来保存它。为了在一个特定对象的一个域上关闭serialization，可以在这个域前加上关键字transient。
 
 
-        //User类
+        //User类
         public class User implements Serializable {  
             private static final long serialVersionUID = 996890129747019948L;  
             private String name;  
@@ -89,7 +89,7 @@
         }  
         }
 
-- 2、构造方法
+- 2、构造方法
 
          /**
         * Constructs an empty list with the specified initial * * capacity.
