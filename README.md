@@ -1,4 +1,4 @@
-## 项目为gitbook项目，在本地构建为html页面后上传到github-page页进行展示，可以发布到自己的web服务器上，方便他人查看你的gitbook笔记 
+### 项目为gitbook项目，在本地构建为html页面后上传到github-page页进行展示，可以发布到自己的web服务器上，方便他人查看你的gitbook笔记 
 
 - 构建项目为html内容到github-page展示
 
@@ -11,5 +11,5 @@ gitbook serve
 
 - 安装此插件
 
-npm install gitbook-plugin-toggle-section
+npm install gitbook-plugin-toggle-section，此插件用于代码块折叠和展开，已经发布到npm上可以直接安装使用
 
